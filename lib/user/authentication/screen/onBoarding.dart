@@ -22,7 +22,7 @@ class _OnBoadingScreenState extends State<OnBoadingScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
+  
     super.dispose();
     _pageController.dispose();
   }
@@ -33,14 +33,19 @@ class _OnBoadingScreenState extends State<OnBoadingScreen> {
       body: Column(
         children: [
          const Padding(
-            padding: const EdgeInsets.only(top: 40.0,left: 8.0),
-            child: Text("Find What's New",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.black87,
-              fontSize: 30,
-              ),
-              ),
+            padding: const EdgeInsets.only(top: 40.0,left: 10.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Find What's New",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                  fontSize: 30,
+                  ),
+                  ),
+              ],
+            ),
           ),
           AspectRatio(
             aspectRatio: 0.85,
@@ -65,18 +70,18 @@ class _OnBoadingScreenState extends State<OnBoadingScreen> {
         double value = 0.0;
         if(_pageController.position.haveDimensions){
           value = index.toDouble() - (_pageController.page ?? 0);
-          value = (value * 0.03).clamp(-1,1);
+          value = (value * 0.038).clamp(-1,1); //makes the side card tilted
         }
         return Transform.rotate(
           angle: pi*value, 
           child: carouselCard(dataList[index]),
-          );
+          );//gives straigt card for current index 
        
        },
        );
     
   }
-
+ 
 
   Widget carouselCard(DataModel data){
     return Column(
@@ -108,13 +113,13 @@ class _OnBoadingScreenState extends State<OnBoadingScreen> {
           fontSize: 25,
           fontWeight: FontWeight.bold),),
         ),
-        // Padding(
-        //   padding: const EdgeInsets.all(8.0),
-        //   child: Text("\$${data.title}",
-        //   style: TextStyle(color: Colors.black87,
-        //   fontSize: 16,
-        //   fontWeight: FontWeight.bold),),
-        // ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text("\$${data.title}",
+          style: TextStyle(color: Colors.black87,
+          fontSize: 16,
+          fontWeight: FontWeight.bold),),
+        ),
       ],
     );
   }
