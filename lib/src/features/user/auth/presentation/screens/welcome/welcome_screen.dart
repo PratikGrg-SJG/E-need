@@ -1,3 +1,4 @@
+import 'package:e_needs/src/core/app/colors.dart';
 import 'package:e_needs/src/features/user/auth/presentation/screens/login/login_screen.dart';
 import 'package:e_needs/src/features/user/auth/presentation/screens/register/register_screen.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +61,7 @@ class WelcomeScreen extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                       shadowColor: const Color.fromARGB(255, 140, 135, 135),
                       elevation: 5,
-                      backgroundColor: Color(0xffC3ACD0),
+                      backgroundColor: AppColor.kMain,
                       maximumSize: Size(288, 47)),
                   onPressed: () {
                     Navigator.of(context).pushReplacement(
@@ -69,7 +70,7 @@ class WelcomeScreen extends StatelessWidget {
                   child: Text(
                     "Sign In",
                     style: TextStyle(
-                        color: Color.fromRGBO(18, 17, 18, 1),
+                        color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 20),
                   ),
@@ -85,7 +86,7 @@ class WelcomeScreen extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     shadowColor: const Color.fromARGB(255, 140, 135, 135),
                     elevation: 5,
-                    backgroundColor: Color(0xffC3ACD0),
+                    backgroundColor: AppColor.kMain,
                   ),
                   onPressed: () {
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
@@ -93,7 +94,7 @@ class WelcomeScreen extends StatelessWidget {
                   },
                   child: Text("Sign Up",
                       style: TextStyle(
-                          color: Color.fromRGBO(18, 17, 18, 1),
+                          color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 20)),
                 ),

@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-
 
 //padding for whole screen
 const screenPadding = EdgeInsets.all(16);

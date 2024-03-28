@@ -139,7 +139,7 @@ class TotalSection extends StatelessWidget {
               style: TextStyle(color: const Color.fromARGB(255, 251, 250, 250)),
             ),
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColor.kPurple,
+              backgroundColor: AppColor.kMain,
               textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               elevation: 20,
               shadowColor: Color.fromARGB(255, 186, 176, 176),

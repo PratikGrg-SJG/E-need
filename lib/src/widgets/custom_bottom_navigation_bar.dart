@@ -36,6 +36,11 @@ class CustomBottomNavigationBar extends StatelessWidget {
               kHomeOutlinedSvg,
             ),
             custombottomitem(
+              "Orders",
+              kReceiptFilledSvg,
+              kReceiptOutlinedSvg,
+            ),
+            custombottomitem(
               "Wishlist",
               kHeartFilledSvg,
               kHeartOutlinedSvg,

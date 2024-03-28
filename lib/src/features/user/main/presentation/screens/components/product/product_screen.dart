@@ -1,18 +1,15 @@
 import 'package:e_needs/src/core/app/dimensions.dart';
-import 'package:e_needs/src/features/user/main/data/models/models.dart';
+import 'package:e_needs/src/core/configs/api_config.dart';
+import 'package:e_needs/src/features/user/main/data/models/products/product_response_model.dart';
 import 'package:e_needs/src/widgets/custom_shadow_container.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../../../core/app/colors.dart';
 
 class ProductScreen extends StatelessWidget {
-  const ProductScreen({
-    super.key,
-    required this.dataModel,
-  });
+  const ProductScreen({super.key, this.product});
 
-  final DataModel? dataModel;
+  final Products? product;
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +25,8 @@ class ProductScreen extends StatelessWidget {
                   bottomLeft: Radius.circular(40),
                   bottomRight: Radius.circular(40),
                 ),
-                widget: Image.asset(
-                  dataModel?.imageName ?? '',
+                widget: Image.network(
+                  "${ApiConfig.localhost}${product?.image}",
                   fit: BoxFit.cover,
                 ),
               ),
@@ -37,20 +34,26 @@ class ProductScreen extends StatelessWidget {
                 top: 50,
                 left: 10,
                 child: IconButton.filledTonal(
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStatePropertyAll(Colors.grey.shade200)),
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  icon: Icon(CupertinoIcons.chevron_back),
+                  icon: Icon(Icons.arrow_back),
                 ),
               ),
               Positioned(
                 top: 50,
                 right: 10,
                 child: IconButton.filledTonal(
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStatePropertyAll(Colors.grey.shade200)),
                   onPressed: () {},
                   icon: Icon(
-                    CupertinoIcons.heart_fill,
-                    color: Colors.white,
+                    Icons.favorite_outlined,
+                    color: Colors.red,
                   ),
                 ),
               ),
@@ -60,25 +63,35 @@ class ProductScreen extends StatelessWidget {
             height: 20,
           ),
           Expanded(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text(
-                  dataModel?.title ?? '',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
+            child: Container(
+              padding: screenLeftRightPadding,
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    product?.name ?? '',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                ),
-                Text(
-                  "Rs ${dataModel?.price ?? ''}",
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
+                  Text(
+                    "Rs ${product?.price ?? ''}",
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                ),
-              ],
+                  Text(
+                    "Rs ${product?.description ?? ''}",
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.grey),
+                  ),
+                ],
+              ),
             ),
           ),
           SizedBox(
@@ -95,7 +108,7 @@ class ProductScreen extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         shadowColor: const Color.fromARGB(255, 140, 135, 135),
                         elevation: 5,
-                        backgroundColor: AppColor.kPurple,
+                        backgroundColor: AppColor.kMain,
                         shape: RoundedRectangleBorder(
                           borderRadius:
                               BorderRadius.circular(borderRadiusSecond),
@@ -122,7 +135,7 @@ class ProductScreen extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         shadowColor: const Color.fromARGB(255, 140, 135, 135),
                         elevation: 5,
-                        backgroundColor: AppColor.kPurple,
+                        backgroundColor: AppColor.kMain,
                         shape: RoundedRectangleBorder(
                           borderRadius:
                               BorderRadius.circular(borderRadiusSecond),

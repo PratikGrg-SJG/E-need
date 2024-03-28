@@ -1,4 +1,9 @@
+import 'package:e_needs/di_injection.dart';
+import 'package:e_needs/src/features/user/main/presentation/screens/components/home/bloc/cubit/get_all_categories_cubit.dart';
 import 'package:e_needs/src/features/user/main/presentation/screens/components/home/home_screen.dart';
+import 'package:e_needs/src/features/user/main/presentation/screens/components/order/order_screen.dart';
+import 'package:e_needs/src/features/user/main/presentation/screens/components/product/bloc/cubit/get_all_products_cubit.dart';
+import 'package:e_needs/src/features/user/main/presentation/screens/components/profile/bloc/get_user_cubit/get_user_details_cubit.dart';
 import 'package:e_needs/src/features/user/main/presentation/screens/components/profile/profile_screen.dart';
 import 'package:e_needs/src/features/user/main/presentation/screens/components/wishlist/wishlist_screen.dart';
 import 'package:e_needs/src/widgets/custom_bottom_navigation_bar.dart';
@@ -16,35 +21,31 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   @override
+  void initState() {
+    super.initState();
+    sl.get<GetAllCategoriesCubit>().getAllCategories();
+    sl.get<GetAllProductsCubit>().getAllProducts();
+    sl.get<GetUserDetailsCubit>().getUserDetails();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocListener<NavCubit, NavState>(
-      listener: (context, state) {
-        if (state.status == NavStatus.loading) {
-          print("loading");
-        }
-        if (state.status == NavStatus.success) {
-          print("success");
-        }
-        if (state.index == 5) {
-          print("working");
-        }
+    return BlocBuilder<NavCubit, NavState>(
+      builder: (context, navState) {
+        print("from main :: ${navState.index}");
+        return Scaffold(
+          body: IndexedStack(
+            index: navState.index,
+            children: [
+              HomeScreen(),
+              OrderScreen(),
+              WsishListScreen(),
+              ProfileScreen(),
+            ],
+          ),
+          bottomNavigationBar: CustomBottomNavigationBar(),
+        );
       },
-      child: BlocBuilder<NavCubit, NavState>(
-        builder: (context, navState) {
-          print("from main :: ${navState.index}");
-          return Scaffold(
-            body: IndexedStack(
-              index: navState.index,
-              children: [
-                HomeScreen(),
-                WsishListScreen(),
-                ProfileScreen(),
-              ],
-            ),
-            bottomNavigationBar: CustomBottomNavigationBar(),
-          );
-        },
-      ),
     );
   }
 }

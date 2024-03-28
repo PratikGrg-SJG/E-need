@@ -1,17 +1,23 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:e_needs/src/core/app/colors.dart';
 import 'package:e_needs/src/core/app/dimensions.dart';
-import 'package:e_needs/src/features/user/main/data/models/models.dart';
+import 'package:e_needs/src/core/configs/api_config.dart';
+import 'package:e_needs/src/features/user/main/data/models/products/product_response_model.dart';
+import 'package:e_needs/src/features/user/main/presentation/screens/components/home/bloc/cubit/get_all_categories_cubit.dart';
+import 'package:e_needs/src/features/user/main/presentation/screens/components/product/bloc/cubit/get_all_products_cubit.dart';
 import 'package:e_needs/src/widgets/custom_shadow_container.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../../../core/app/medias.dart';
 import '../../../../../../../core/states/states.dart';
 import '../cart/cart_screen.dart';
 import '../product/product_screen.dart';
 
 part 'widgets/carousel_section.dart';
 part 'widgets/category_section.dart';
+part 'widgets/product_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -23,17 +29,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(
-        // title: Text(
-        //   "Home",
-        // ),
-        leading: BackButton(),
-        backgroundColor: Colors.transparent,
-        foregroundColor: Colors.black,
-        elevation: 0,
-        centerTitle: true,
-
         actions: [
           IconButton(
             onPressed: () {
@@ -50,49 +48,52 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
         bottom: PreferredSize(
-          preferredSize: Size(MediaQuery.of(context).size.width, 40),
-          child: Container(
-            margin: screenLeftRightPadding,
-            padding: EdgeInsets.only(bottom: 12),
-            child: CupertinoSearchTextField(
-              decoration: BoxDecoration(boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  blurRadius: 7,
-                )
-              ], color: Colors.white, borderRadius: BorderRadius.circular(10)),
+          preferredSize: Size(MediaQuery.of(context).size.width, 50),
+          child: Padding(
+            padding: EdgeInsets.only(left: 16, right: 16, bottom: 10),
+            child: CustomShadowContainer(
+              widget: CupertinoSearchTextField(
+                padding: EdgeInsets.all(14),
+                prefixInsets: EdgeInsets.only(left: 16),
+                decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        blurRadius: 7,
+                      )
+                    ],
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10)),
+              ),
             ),
           ),
         ),
       ),
-      backgroundColor: Color.fromRGBO(247, 239, 229, 1),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 22),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 30,
-              ),
-              SingleChildScrollView(
-                child: Column(
-                  children: [
-                    CarouselSection(),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    CategorySection(),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    GridView.builder(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(height: 16),
+                CarouselSection(),
+                SizedBox(
+                  height: 30,
+                ),
+                CategorySection(),
+                SizedBox(
+                  height: 30,
+                ),
+                BlocBuilder<GetAllProductsCubit, GetAllProductsState>(
+                  builder: (context, state) {
+                    return GridView.builder(
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        crossAxisSpacing: 25,
+                        crossAxisSpacing: 15,
                         mainAxisSpacing: 25,
-                        childAspectRatio: 0.8,
+                        mainAxisExtent: 230,
                       ),
                       itemBuilder: (context, index) => GestureDetector(
                         onTap: () {
@@ -100,71 +101,19 @@ class _HomeScreenState extends State<HomeScreen> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => ProductScreen(
-                                  dataModel: dataList[index],
-                                ),
+                                    product: state
+                                        .productsResponseModel?.data?[index]),
                               ));
                         },
-                        child: CustomShadowContainer(
-                          bgColor: AppColor.kCardbg,
-                          widget: Column(
-                            children: [
-                              Container(
-                                clipBehavior: Clip.hardEdge,
-                                decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.circular(borderRadius)),
-                                margin: EdgeInsets.only(top: 12),
-                                child: Image.asset(
-                                  dataList[index].imageName,
-                                  height: 120,
-                                  width: 130,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              SizedBox(height: 10),
-                              Padding(
-                                padding: screenLeftRightPadding,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      dataList[index].title,
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "Rating",
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Text(
-                                      "Rs ${dataList[index].price}",
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
+                        child: ProductCard(product: state.productsResponseModel?.data?[index]),
                       ),
-                      itemCount: dataList.length,
-                    ),
-                    SizedBox(height: 16),
-                  ],
+                      itemCount: state.productsResponseModel?.data?.length ?? 0,
+                    );
+                  },
                 ),
-              ),
-            ],
+                SizedBox(height: 16),
+              ],
+            ),
           ),
         ),
       ),

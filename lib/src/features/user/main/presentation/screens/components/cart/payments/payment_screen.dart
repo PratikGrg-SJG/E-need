@@ -34,7 +34,7 @@ class PaymentScreen extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(
-              height: 40,
+              height: 20,
             ),
             CustomShadowContainer(
               padding: EdgeInsets.symmetric(horizontal: 24, vertical: 14),
@@ -55,7 +55,7 @@ class PaymentScreen extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 40,
+              height: 16,
             ),
             CustomShadowContainer(
               padding: EdgeInsets.symmetric(horizontal: 24, vertical: 14),
@@ -75,10 +75,11 @@ class PaymentScreen extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
-              height: 170,
-            ),
+            Spacer(),
             TotalSection(isFromPaymentScreen: true),
+            SizedBox(
+              height: 35,
+            ),
           ],
         ),
       ),

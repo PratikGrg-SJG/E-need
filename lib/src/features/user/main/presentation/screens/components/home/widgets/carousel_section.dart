@@ -8,12 +8,6 @@ class CarouselSection extends StatefulWidget {
 }
 
 class _CarouselSectionState extends State<CarouselSection> {
-  final List<String> _bannerImages = [
-    "https://t4.ftcdn.net/jpg/05/97/26/83/360_F_597268323_KVAyxDzImXBcQrcKIiZUzjTCw5tPTFuw.jpg",
-    "https://www.solidbackgrounds.com/images/3840x2160/3840x2160-khaki-web-solid-color-background.jpg",
-    "https://www.solidbackgrounds.com/images/950x350/950x350-amber-solid-color-background.jpg",
-  ];
-
   final CarouselController carouselController = CarouselController();
 
   @override
@@ -28,8 +22,8 @@ class _CarouselSectionState extends State<CarouselSection> {
               height: 140,
               width: double.infinity,
               child: CarouselSlider(
-                items: _bannerImages
-                    .map((item) => Image.network(
+                items: [kBanner1Image, kBanner2Image, kBanner3Image]
+                    .map((item) => Image.asset(
                           item,
                           fit: BoxFit.cover,
                           width: double.infinity,
@@ -54,7 +48,10 @@ class _CarouselSectionState extends State<CarouselSection> {
           //dot indicator
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: _bannerImages.asMap().entries.map(
+            children: [kBanner1Image, kBanner2Image, kBanner3Image]
+                .asMap()
+                .entries
+                .map(
               (entry) {
                 return Container(
                   width: carouselIndexNotifier.value == entry.key ? 22 : 10,
@@ -63,8 +60,8 @@ class _CarouselSectionState extends State<CarouselSection> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: carouselIndexNotifier.value == entry.key
-                        ? AppColor.kPurple
-                        : AppColor.kPurpleLighter,
+                        ? Colors.black54
+                        : Colors.grey.shade300,
                   ),
                 );
               },

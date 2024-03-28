@@ -4,15 +4,11 @@ const baseSVGPath = 'assets/svg/';
 //image data here...
 const baseImagePath = 'assets/images/';
 
-//json data here...
-const baseJsonPath = 'assets/json/';
-
-//network basepath
-const baseNetworkPath = 'https://files.theyetilabs.com/agrotech/';
-
 //images
 // final kOnboardingImage = _getImageBasePath('onboarding.png');
-final kFarmerGetStartedImage = _getImageBasePath('farmer_get_started.png');
+final kBanner1Image = _getImageBasePath('banner1.png');
+final kBanner2Image = _getImageBasePath('banner2.png');
+final kBanner3Image = _getImageBasePath('banner3.png');
 
 final kBannerThreeImage = _getImageBasePath('banner_three.png');
 
@@ -23,12 +19,8 @@ final kPersonFilledSvg = _getSvgBasePath('person_filled.svg');
 final kPersonOutlinedSvg = _getSvgBasePath('person_outline.svg');
 final kHeartOutlinedSvg = _getSvgBasePath('heart_outline.svg');
 final kHeartFilledSvg = _getSvgBasePath('heart_filled.svg');
-
-//jsons
-final kCountriesJson = _getJsonBasePath('countries.json');
-
-//network image
-final kOnboardingOneUrl = _getNetworkImageBasePath('onboarding_one.png');
+final kReceiptFilledSvg = _getSvgBasePath('receipt_filled.svg');
+final kReceiptOutlinedSvg = _getSvgBasePath('receipt_outline.svg');
 
 //svg function here...
 String _getSvgBasePath(String name) {
@@ -38,13 +30,4 @@ String _getSvgBasePath(String name) {
 //image function here...
 String _getImageBasePath(String name) {
   return baseImagePath + name;
-}
-
-//json function here...
-String _getJsonBasePath(String name) {
-  return baseJsonPath + name;
-}
-
-String _getNetworkImageBasePath(String name) {
-  return baseNetworkPath + name;
 }

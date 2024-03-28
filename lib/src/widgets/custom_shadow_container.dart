@@ -23,7 +23,7 @@ class CustomShadowContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      clipBehavior: clipBehavior ?? Clip.none,
+      clipBehavior: clipBehavior ?? Clip.hardEdge,
       height: height,
       width: MediaQuery.of(context).size.width,
       padding: padding ?? EdgeInsets.all(0),
@@ -32,9 +32,10 @@ class CustomShadowContainer extends StatelessWidget {
         borderRadius: borderRadius ?? BorderRadius.circular(borderRadiusSecond),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.shade500,
-            offset: Offset(0, 3),
-            blurRadius: 6,
+            color: Color(0xffB8B5B6).withOpacity(0.2),
+            offset: Offset(0, 4),
+            spreadRadius: 6,
+            blurRadius: 10,
           )
         ],
       ),
