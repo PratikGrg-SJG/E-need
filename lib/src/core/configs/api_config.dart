@@ -1,5 +1,5 @@
 class ApiConfig {
-  static const String localhost = "http://192.168.1.71:8000";
+  static const String localhost = "http://192.168.11.85:8000";
 
   static const String apiUrl = "/api";
   static String baseUrl = localhost + apiUrl;
@@ -13,4 +13,12 @@ class ApiConfig {
   static const String allCategoryUrl = "/allcategory";
   static const String productUrl = "/product";
   static const String allProductUrl = "/allproduct";
+  static const String cartUrl = "/cart";
+  static const String orderUrl = "/order";
+  static const String increaseQuantityUrl = "/increaseQuantity";
+  static const String decreaseQuantityUrl = "/decreaseQuantity";
+  static const String favoriteUrl = "/favorite";
+  static const String addUrl = "/add";
+  static const String removeUrl = "/remove";
+
 }

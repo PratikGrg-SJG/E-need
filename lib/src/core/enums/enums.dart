@@ -6,3 +6,9 @@ enum LoggerType {
   debug,
   success,
 }
+
+
+enum PaymentMethod{
+  cashInHand,
+  khalti
+}

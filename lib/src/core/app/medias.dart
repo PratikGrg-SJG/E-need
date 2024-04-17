@@ -11,6 +11,7 @@ final kBanner2Image = _getImageBasePath('banner2.png');
 final kBanner3Image = _getImageBasePath('banner3.png');
 
 final kBannerThreeImage = _getImageBasePath('banner_three.png');
+final kSuccessImage = _getImageBasePath('success.png');
 
 //svg
 final kHomeFilledSvg = _getSvgBasePath('home_filled.svg');
@@ -21,6 +22,7 @@ final kHeartOutlinedSvg = _getSvgBasePath('heart_outline.svg');
 final kHeartFilledSvg = _getSvgBasePath('heart_filled.svg');
 final kReceiptFilledSvg = _getSvgBasePath('receipt_filled.svg');
 final kReceiptOutlinedSvg = _getSvgBasePath('receipt_outline.svg');
+final kKhaltiLogoSvg = _getSvgBasePath('khalti_logo.svg');
 
 //svg function here...
 String _getSvgBasePath(String name) {

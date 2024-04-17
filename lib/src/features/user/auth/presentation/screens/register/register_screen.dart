@@ -141,6 +141,12 @@ class RegisterScreen extends StatelessWidget {
                                     .registerFormKey
                                     .currentState!
                                     .validate()) {
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //     builder: (context) => OTPScreen(),
+                                  //   ),
+                                  // );
                                   sl.get<RegisterUserCubit>().registerUser();
                                 }
                               },

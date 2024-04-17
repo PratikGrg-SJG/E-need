@@ -3,7 +3,10 @@ part of '../wishlist_screen.dart';
 class WishlistCard extends StatelessWidget {
   const WishlistCard({
     super.key,
+    this.wishlist,
   });
+
+  final WishlistResponseModel? wishlist;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +16,10 @@ class WishlistCard extends StatelessWidget {
         SizedBox(
           height: 80,
           width: 70,
-          child: Placeholder(),
+          child: Image.network(
+            "${ApiConfig.localhost}${wishlist?.image}",
+            fit: BoxFit.cover,
+          ),
         ),
         SizedBox(width: 16),
         Expanded(
@@ -22,14 +28,14 @@ class WishlistCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                "Product Name",
+                "${wishlist?.name}",
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                 ),
               ),
               Text(
-                "Rs. 2500",
+                "Rs. ${wishlist?.price}",
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
@@ -62,11 +68,15 @@ class WishlistCard extends StatelessWidget {
                 alignment: Alignment.center,
                 child: TextButton(
                   onPressed: null,
-                  child: Text(
-                    "Remove",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.red,
+                  child: GestureDetector(
+                    onTap: () => sl.get<UpdateWishlistCubit>().updateWishlist(
+                        addToWishlist: false, productId: wishlist?.id),
+                    child: Text(
+                      "Remove",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.red,
+                      ),
                     ),
                   ),
                 ),

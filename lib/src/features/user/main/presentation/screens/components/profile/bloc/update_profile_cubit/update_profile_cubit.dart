@@ -24,6 +24,8 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
   TextEditingController get addressController => _addressController;
   TextEditingController get phoneController => _phoneController;
 
+  final GlobalKey<FormState> updateProfileFormKey = GlobalKey<FormState>();
+
   Future<void> updateProfile() async {
     try {
       emit(state.copyWith(

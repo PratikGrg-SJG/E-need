@@ -3,8 +3,8 @@ import 'package:e_needs/src/core/app/colors.dart';
 import 'package:e_needs/src/core/app/dimensions.dart';
 import 'package:e_needs/src/core/configs/api_config.dart';
 import 'package:e_needs/src/features/user/main/data/models/products/product_response_model.dart';
-import 'package:e_needs/src/features/user/main/presentation/screens/components/home/bloc/cubit/get_all_categories_cubit.dart';
-import 'package:e_needs/src/features/user/main/presentation/screens/components/product/bloc/cubit/get_all_products_cubit.dart';
+import 'package:e_needs/src/features/user/main/presentation/screens/components/cart/bloc/get_cart_cubit/get_cart_cubit.dart';
+import 'package:e_needs/src/features/user/main/presentation/screens/components/home/bloc/get_products_cubit/get_all_products_cubit.dart';
 import 'package:e_needs/src/widgets/custom_shadow_container.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +14,7 @@ import '../../../../../../../core/app/medias.dart';
 import '../../../../../../../core/states/states.dart';
 import '../cart/cart_screen.dart';
 import '../product/product_screen.dart';
+import 'bloc/get_categories_cubit/get_categories_cubit.dart';
 
 part 'widgets/carousel_section.dart';
 part 'widgets/category_section.dart';
@@ -29,21 +30,58 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(
-            onPressed: () {
+          GestureDetector(
+            onTap: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => CartScreen(),
                   ));
             },
-            icon: Icon(
-              Icons.shopping_cart_outlined,
-              color: Colors.black,
+            child: BlocBuilder<GetCartCubit, GetCartState>(
+              builder: (context, state) {
+                return Stack(alignment: Alignment.topRight, children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CartScreen(),
+                          ));
+                    },
+                    icon: Icon(
+                      Icons.shopping_cart_outlined,
+                      color: Colors.black,
+                    ),
+                  ),
+                  if ((state.cartItems?.data?.productData?.length ?? 0) >
+                      0) ...[
+                    Positioned(
+                      right: 5,
+                      child: Container(
+                        padding: EdgeInsets.all(3),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          shape: BoxShape.circle,
+                        ),
+                        height: 24,
+                        width: 24,
+                        child: Text(
+                          "${state.cartItems?.data?.productData?.length}",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    )
+                  ]
+                ]);
+              },
             ),
           ),
         ],
@@ -105,7 +143,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                         .productsResponseModel?.data?[index]),
                               ));
                         },
-                        child: ProductCard(product: state.productsResponseModel?.data?[index]),
+                        child: ProductCard(
+                            product: state.productsResponseModel?.data?[index]),
                       ),
                       itemCount: state.productsResponseModel?.data?.length ?? 0,
                     );

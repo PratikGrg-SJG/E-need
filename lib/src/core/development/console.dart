@@ -44,7 +44,7 @@ logger(var message, {LoggerType loggerType = LoggerType.info}) {
         logger.w(message);
         break;
       case LoggerType.verbose:
-        logger.v(message);
+        logger.t(message);
         break;
       default:
         logger.e(message);

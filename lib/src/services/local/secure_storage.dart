@@ -42,7 +42,7 @@ class SharedPreference {
 
   bool hasAuthToken() => _sharedPreference?.get("auth_token") != null;
 
-  bool notLoggedIn() {
+  static bool notLoggedIn() {
     return getAuthToken() == null;
   }
 }

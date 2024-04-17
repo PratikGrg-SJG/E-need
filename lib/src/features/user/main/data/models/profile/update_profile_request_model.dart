@@ -20,13 +20,13 @@ class UpdateProfileRequestModel {
       map['name'] = name;
     }
     if ((email ?? '').isNotEmpty) {
-      map['name'] = name;
+      map['email'] = email;
     }
     if ((phoneNumber ?? '').isNotEmpty) {
-      map['name'] = name;
+      map['contact_number'] = phoneNumber;
     }
     if ((address ?? '').isNotEmpty) {
-      map['name'] = name;
+      map['location'] = address;
     }
 
     return map;

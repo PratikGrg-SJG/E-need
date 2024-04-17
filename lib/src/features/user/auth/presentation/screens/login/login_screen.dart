@@ -2,7 +2,7 @@ import 'package:e_needs/di_injection.dart';
 import 'package:e_needs/src/core/development/console.dart';
 import 'package:e_needs/src/features/user/auth/presentation/screens/login/cubit/login_cubit.dart';
 import 'package:e_needs/src/features/user/auth/presentation/screens/register/register_screen.dart';
-import 'package:e_needs/src/features/user/main/presentation/cubit/cubit/nav_cubit.dart';
+import 'package:e_needs/src/features/user/main/presentation/cubit/nav_cubit.dart';
 import 'package:e_needs/src/features/user/main/presentation/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

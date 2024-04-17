@@ -1,5 +1,4 @@
 import 'package:e_needs/src/core/configs/api_config.dart';
-import 'package:e_needs/src/core/development/console.dart';
 import 'package:e_needs/src/features/user/auth/data/models/login_request_model.dart';
 import 'package:e_needs/src/features/user/auth/data/models/register_user_request_model.dart';
 import 'package:e_needs/src/services/network/api_handler.dart';
@@ -36,7 +35,6 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDataSource {
   Future<LoginResponseModel> loginUser(
       LoginRequestModel loginRequestModel) async {
     try {
-      
       var response = await _apiHandler.post(
         "${ApiConfig.loginUrl}",
         loginRequestModel.toJson(),

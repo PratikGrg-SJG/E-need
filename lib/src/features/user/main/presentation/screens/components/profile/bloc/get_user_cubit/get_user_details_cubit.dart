@@ -8,7 +8,6 @@ import 'package:e_needs/src/features/user/main/presentation/screens/components/p
 import 'package:e_needs/src/models/common_request_model.dart';
 import 'package:e_needs/src/services/local/secure_storage.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 
 import '../../../../../../data/models/profile/user_details_response_model.dart';
 
@@ -19,8 +18,6 @@ class GetUserDetailsCubit extends Cubit<GetUserDetailsState> {
 
   GetUserDetailsCubit(this._getUserDetailsUsecase)
       : super(GetUserDetailsState());
-
-
 
   Future<void> getUserDetails() async {
     try {
@@ -75,7 +72,9 @@ class GetUserDetailsCubit extends Cubit<GetUserDetailsState> {
   _initializeControllers(UserDetailsResponseModel? userData) {
     sl.get<UpdateProfileCubit>().nameController.text = userData?.name ?? "";
     sl.get<UpdateProfileCubit>().emailController.text = userData?.email ?? "";
-   sl.get<UpdateProfileCubit>().addressController.text = userData?.location ?? "";
-    sl.get<UpdateProfileCubit>().phoneController.text = userData?.contactNumber ?? "";
+    sl.get<UpdateProfileCubit>().addressController.text =
+        userData?.location ?? "";
+    sl.get<UpdateProfileCubit>().phoneController.text =
+        userData?.contactNumber ?? "";
   }
 }

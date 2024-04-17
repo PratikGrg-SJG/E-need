@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../di_injection.dart';
 import '../core/app/colors.dart';
 import '../core/app/medias.dart';
-import '../features/user/main/presentation/cubit/cubit/nav_cubit.dart';
+import '../features/user/main/presentation/cubit/nav_cubit.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
   const CustomBottomNavigationBar({Key? key}) : super(key: key);
