@@ -5,10 +5,13 @@ import 'package:e_needs/src/features/user/auth/data/models/login_response_model.
 import '../../../../../core/error/failures.dart';
 import '../../data/models/register_user_request_model.dart';
 import '../../data/models/register_user_response_model.dart';
+import '../../data/models/verifyOtp_request_model.dart';
 
 abstract class AuthRepository {
   Future<Either<Failure, RegisterUserResponseModel>> registerUser(
       RegisterUserRequestModel registerUserRequestModel);
 
       Future<Either<Failure, LoginResponseModel>> login(LoginRequestModel loginRequestModel);
+
+      Future<Either<Failure, void>> verifyOtp(VerifyOtpRequestModel verifyOtpRequestModel);
 }

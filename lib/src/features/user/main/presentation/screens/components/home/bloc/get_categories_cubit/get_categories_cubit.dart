@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:e_needs/src/core/states/states.dart';
 import 'package:e_needs/src/features/user/main/domain/usecases/get_all_categories_usecase.dart';
 import 'package:equatable/equatable.dart';
 
@@ -14,6 +15,10 @@ class GetAllCategoriesCubit extends Cubit<GetAllCategoriesState> {
   final GetAllCategoriesUsecase _getAllCategoriesUsecase;
   GetAllCategoriesCubit(this._getAllCategoriesUsecase)
       : super(GetAllCategoriesState());
+
+  final List<CategoryResponseModel> additionalCategories = [
+    CategoryResponseModel(id: 0, name: "All"),
+  ];
 
   Future<void> getAllCategories() async {
     try {
@@ -32,10 +37,12 @@ class GetAllCategoriesCubit extends Cubit<GetAllCategoriesState> {
         ));
       }, (result) {
         logger(result, loggerType: LoggerType.success);
+        List<CategoryResponseModel> allCategories =
+            additionalCategories + (result ?? []);
         emit(state.copyWith(
           status: GetCategoriesStatus.failure,
           message: "Products fetched successfully",
-          categories: result,
+          categories: allCategories,
         ));
       });
     } on ApiException catch (e) {
@@ -48,6 +55,16 @@ class GetAllCategoriesCubit extends Cubit<GetAllCategoriesState> {
         status: GetCategoriesStatus.failure,
         message: e.toString(),
       ));
+    }
+  }
+
+  Future<void> selectedCategoryIndex({int? index}) async {
+    if (index == 0) {
+      showCategoryProductsNotifier.value = false;
+      emit(state.copyWith(categoryIndex: 0));
+    } else {
+      showCategoryProductsNotifier.value = true;
+      emit(state.copyWith(categoryIndex: index));
     }
   }
 }

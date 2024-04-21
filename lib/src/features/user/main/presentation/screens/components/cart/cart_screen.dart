@@ -30,14 +30,27 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<UpdateQuantityCubit, UpdateQuantityState>(
-      listener: (context, state) {
-        if (state.status == UpdateQuantityStatus.loading) {}
-        if (state.status == UpdateQuantityStatus.failure) {}
-        if (state.status == UpdateQuantityStatus.success) {
-          sl.get<GetCartCubit>().getCart();
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<UpdateQuantityCubit, UpdateQuantityState>(
+          listener: (context, state) {
+            if (state.status == UpdateQuantityStatus.loading) {}
+            if (state.status == UpdateQuantityStatus.failure) {
+              errorToast(msg: state.message);
+            }
+            if (state.status == UpdateQuantityStatus.success) {
+              sl.get<GetCartCubit>().getCart();
+            }
+          },
+        ),
+        BlocListener<GetCartCubit, GetCartState>(
+          listener: (context, state) {
+            if (state.status == GetCartStatus.failure) {
+              errorToast(msg: state.message);
+            }
+          },
+        ),
+      ],
       child: Scaffold(
         appBar: AppBar(
           title: Text(
@@ -56,7 +69,11 @@ class _CartScreenState extends State<CartScreen> {
             builder: (context, state) {
               return (state.cartItems?.data?.productData ?? []).isEmpty
                   ? Center(
-                      child: Text("Empty Cart"),
+                      child: GestureDetector(
+                          onTap: () {
+                            sl.get<GetCartCubit>().getCart();
+                          },
+                          child: Text("Empty Cart")),
                     )
                   : Column(
                       children: [
@@ -147,9 +164,8 @@ class _CartScreenState extends State<CartScreen> {
                                                             isQtyIncrease:
                                                                 false,
                                                             userId: userId,
-                                                            productId: int.parse(
-                                                                product?.productId ??
-                                                                    ''),
+                                                            productId: product
+                                                                ?.productId,
                                                           ));
                                                     },
                                                     icon: Icon(Icons.remove),
@@ -196,9 +212,8 @@ class _CartScreenState extends State<CartScreen> {
                                                               CommonRequestModel(
                                                             isQtyIncrease: true,
                                                             userId: userId,
-                                                            productId: int.parse(
-                                                                product?.productId ??
-                                                                    ''),
+                                                            productId: product
+                                                                ?.productId,
                                                           ));
                                                     },
                                                     icon: Icon(Icons.add),

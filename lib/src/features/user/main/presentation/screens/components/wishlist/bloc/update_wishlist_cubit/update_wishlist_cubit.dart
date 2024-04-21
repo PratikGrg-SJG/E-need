@@ -30,7 +30,7 @@ class UpdateWishlistCubit extends Cubit<UpdateWishlistState> {
           (failure) => emit(state.copyWith(
               message: failure.message, status: UpdateWishlistStatus.failure)),
           (result) => emit(state.copyWith(
-              message: result, status: UpdateWishlistStatus.success)));
+              message: result.message, status: UpdateWishlistStatus.success)));
     } on ApiException catch (e) {
       emit(state.copyWith(
           message: e.message, status: UpdateWishlistStatus.failure));

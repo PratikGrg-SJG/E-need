@@ -41,7 +41,7 @@ class OrderResponseModel {
 
 class Datum {
   int? orderId;
-  String? userId;
+  int? userId;
   String? userContactNumber;
   double? total;
   String? paymentMethod;

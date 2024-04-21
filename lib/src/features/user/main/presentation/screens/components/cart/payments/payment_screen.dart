@@ -3,6 +3,7 @@ import 'package:e_needs/src/core/app/colors.dart';
 import 'package:e_needs/src/core/app/dimensions.dart';
 import 'package:e_needs/src/core/app/medias.dart';
 import 'package:e_needs/src/core/states/states.dart';
+import 'package:e_needs/src/features/user/main/presentation/screens/components/cart/bloc/get_cart_cubit/get_cart_cubit.dart';
 import 'package:e_needs/src/features/user/main/presentation/screens/components/cart/cart_screen.dart';
 import 'package:e_needs/src/features/user/main/presentation/screens/components/order/bloc/add_order_cubit/add_order_cubit.dart';
 import 'package:e_needs/src/features/user/main/presentation/screens/components/order/bloc/get_order_cubit/get_orders_cubit.dart';
@@ -42,6 +43,7 @@ class PaymentScreen extends StatelessWidget {
           }
           if (state.status == AddOrderStatus.success) {
             sl.get<GetOrdersCubit>().getOrders();
+            sl.get<GetCartCubit>().getCart();
             Navigator.pop(context);
             successToast(msg: state.message);
             Navigator.pushAndRemoveUntil(

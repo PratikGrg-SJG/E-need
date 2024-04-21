@@ -67,7 +67,7 @@ class Data {
 class ProductData {
   int? cartId;
   String? categoryName;
-  String? productId;
+  int? productId;
   String? productName;
   String? quantity;
   String? price;

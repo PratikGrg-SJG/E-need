@@ -2,6 +2,7 @@ import 'package:e_needs/di_injection.dart';
 import 'package:e_needs/src/core/app/colors.dart';
 import 'package:e_needs/src/features/user/auth/presentation/screens/login/cubit/login_cubit.dart';
 import 'package:e_needs/src/features/user/auth/presentation/screens/login/login_screen.dart';
+import 'package:e_needs/src/features/user/auth/presentation/screens/otp/cubit/opt_verify_cubit.dart';
 import 'package:e_needs/src/features/user/auth/presentation/screens/register/cubit/register_cubit.dart';
 import 'package:e_needs/src/features/user/auth/presentation/screens/register/register_screen.dart';
 import 'package:e_needs/src/features/user/auth/presentation/screens/splash/splash_screen.dart';
@@ -9,6 +10,7 @@ import 'package:e_needs/src/features/user/main/presentation/cubit/counter_cubit.
 import 'package:e_needs/src/features/user/main/presentation/screens/components/cart/bloc/add_to_cart_cubit/add_to_cart_cubit.dart';
 import 'package:e_needs/src/features/user/main/presentation/screens/components/cart/bloc/get_cart_cubit/get_cart_cubit.dart';
 import 'package:e_needs/src/features/user/main/presentation/screens/components/cart/bloc/update_quantity_cubit/update_quantity_cubit.dart';
+import 'package:e_needs/src/features/user/main/presentation/screens/components/home/bloc/get_products_by_category/get_products_by_category_cubit.dart';
 import 'package:e_needs/src/features/user/main/presentation/screens/components/home/bloc/get_products_cubit/get_all_products_cubit.dart';
 import 'package:e_needs/src/features/user/main/presentation/screens/components/home/home_screen.dart';
 import 'package:e_needs/src/features/user/main/presentation/screens/components/order/bloc/add_order_cubit/add_order_cubit.dart';
@@ -16,6 +18,7 @@ import 'package:e_needs/src/features/user/main/presentation/screens/components/o
 import 'package:e_needs/src/features/user/main/presentation/screens/components/order/order_screen.dart';
 import 'package:e_needs/src/features/user/main/presentation/screens/components/profile/bloc/get_user_cubit/get_user_details_cubit.dart';
 import 'package:e_needs/src/features/user/main/presentation/screens/components/profile/bloc/update_profile_cubit/update_profile_cubit.dart';
+import 'package:e_needs/src/features/user/main/presentation/screens/components/search/bloc/search_bloc.dart';
 import 'package:e_needs/src/features/user/main/presentation/screens/components/wishlist/bloc/get_wishlist_cubit/get_wishlist_cubit.dart';
 import 'package:e_needs/src/features/user/main/presentation/screens/components/wishlist/bloc/update_wishlist_cubit/update_wishlist_cubit.dart';
 import 'package:flutter/material.dart';
@@ -82,6 +85,15 @@ class ENeeds extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => sl.get<UpdateWishlistCubit>(),
+        ),
+        BlocProvider(
+          create: (context) => sl.get<GetProductsByCategoryCubit>(),
+        ),
+        BlocProvider(
+          create: (context) => sl.get<SearchBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => sl.get<VerifyOtpCubit>(),
         ),
       ],
       child: KhaltiScope(

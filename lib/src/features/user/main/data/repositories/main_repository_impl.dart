@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:e_needs/src/core/development/console.dart';
 import 'package:e_needs/src/core/error/api_exceptions.dart';
 import 'package:e_needs/src/core/error/failures.dart';
 import 'package:e_needs/src/features/user/main/data/datasources/main_remote_datasource.dart';
@@ -16,6 +17,7 @@ import 'package:e_needs/src/features/user/main/data/models/wishlist/wishlist_res
 import 'package:e_needs/src/models/common_request_model.dart';
 
 import '../../domain/repositories/main_repository.dart';
+import '../models/common_response_model.dart';
 import '../models/profile/user_details_response_model.dart';
 
 class MainRepositoryImpl extends MainRepository {
@@ -96,6 +98,7 @@ class MainRepositoryImpl extends MainRepository {
       CommonRequestModel commonRequestModel) async {
     try {
       final response = await _mainRemoteDatasource.getCart(commonRequestModel);
+      console("from :: repo :: $response");
       return Right(response);
     } on ApiException catch (e) {
       return Left(ApiFailure(e.message.toString()));
@@ -133,10 +136,10 @@ class MainRepositoryImpl extends MainRepository {
   }
 
   @override
-  Future<Either<Failure, AddOrderResponseModel>> addOrder(CommonRequestModel commonRequestModel)async {
- try {
-      final response =
-          await _mainRemoteDatasource.addOrder(commonRequestModel);
+  Future<Either<Failure, AddOrderResponseModel>> addOrder(
+      CommonRequestModel commonRequestModel) async {
+    try {
+      final response = await _mainRemoteDatasource.addOrder(commonRequestModel);
       return Right(response);
     } on ApiException catch (e) {
       return Left(ApiFailure(e.message.toString()));
@@ -146,8 +149,9 @@ class MainRepositoryImpl extends MainRepository {
   }
 
   @override
-  Future<Either<Failure, List<WishlistResponseModel>>> getWishlist(CommonRequestModel commonRequestModel)async {
- try {
+  Future<Either<Failure, List<WishlistResponseModel>>> getWishlist(
+      CommonRequestModel commonRequestModel) async {
+    try {
       final response =
           await _mainRemoteDatasource.getWishList(commonRequestModel);
       return Right(response);
@@ -159,10 +163,37 @@ class MainRepositoryImpl extends MainRepository {
   }
 
   @override
-  Future<Either<Failure, String>> updateWishlist(CommonRequestModel commonRequestModel)async {
-   try {
+  Future<Either<Failure, CommonResponseModel>> updateWishlist(
+      CommonRequestModel commonRequestModel) async {
+    try {
       final response =
           await _mainRemoteDatasource.updateWishlist(commonRequestModel);
+      return Right(response);
+    } on ApiException catch (e) {
+      return Left(ApiFailure(e.message.toString()));
+    } catch (e) {
+      return Left(ApiFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ProductsResponseModel>> getProductsByCategory(
+      CommonRequestModel commonRequestModel) async {
+    try {
+      final response =
+          await _mainRemoteDatasource.getProductsByCategory(commonRequestModel);
+      return Right(response);
+    } on ApiException catch (e) {
+      return Left(ApiFailure(e.message.toString()));
+    } catch (e) {
+      return Left(ApiFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ProductsResponseModel>> searchProducts() async {
+    try {
+      final response = await _mainRemoteDatasource.searchProducts();
       return Right(response);
     } on ApiException catch (e) {
       return Left(ApiFailure(e.message.toString()));

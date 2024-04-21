@@ -1,11 +1,14 @@
+import 'package:e_needs/di_injection.dart';
 import 'package:e_needs/src/core/configs/api_config.dart';
 import 'package:e_needs/src/core/development/console.dart';
 import 'package:e_needs/src/core/enums/enums.dart';
 import 'package:e_needs/src/features/user/main/data/models/cart/add_to_cart_request_model.dart';
+import 'package:e_needs/src/features/user/main/data/models/common_response_model.dart';
 import 'package:e_needs/src/features/user/main/data/models/order/order_response_model.dart';
 import 'package:e_needs/src/features/user/main/data/models/products/product_response_model.dart';
 import 'package:e_needs/src/features/user/main/data/models/profile/update_profile_request_model.dart';
 import 'package:e_needs/src/features/user/main/data/models/profile/user_details_response_model.dart';
+import 'package:e_needs/src/features/user/main/presentation/screens/components/search/bloc/search_bloc.dart';
 import 'package:e_needs/src/models/common_request_model.dart';
 import 'package:e_needs/src/services/network/api_handler.dart';
 
@@ -21,6 +24,8 @@ abstract class MainRemoteDatasource {
   Future<List<CategoryResponseModel>?> getAllCategories(
       CommonRequestModel commonRequestModel);
   Future<ProductsResponseModel> getAllProducts(
+      CommonRequestModel commonRequestModel);
+  Future<ProductsResponseModel> getProductsByCategory(
       CommonRequestModel commonRequestModel);
 
   Future<UserDetailsResponseModel> getUserDetails(
@@ -43,7 +48,10 @@ abstract class MainRemoteDatasource {
   Future<List<WishlistResponseModel>> getWishList(
       CommonRequestModel commonRequestModel);
 
-  Future<String> updateWishlist(CommonRequestModel commonRequestModel);
+  Future<CommonResponseModel> updateWishlist(
+      CommonRequestModel commonRequestModel);
+
+  Future<ProductsResponseModel> searchProducts();
 }
 
 class MainRemoteDatasourceImpl implements MainRemoteDatasource {
@@ -125,6 +133,7 @@ class MainRemoteDatasourceImpl implements MainRemoteDatasource {
         "${ApiConfig.cartUrl}${ApiConfig.userUrl}/${commonRequestModel.userId}",
         isauth: true,
       );
+      console("from datasource :: $response");
       return getCartResponseModelFromJson(response);
     } catch (e) {
       rethrow;
@@ -202,13 +211,41 @@ class MainRemoteDatasourceImpl implements MainRemoteDatasource {
   }
 
   @override
-  Future<String> updateWishlist(CommonRequestModel commonRequestModel) async {
+  Future<CommonResponseModel> updateWishlist(
+      CommonRequestModel commonRequestModel) async {
     try {
       var response = await _apiHandler.get(
         "${ApiConfig.favoriteUrl}${commonRequestModel.addToWishlist == true ? ApiConfig.addUrl : ApiConfig.removeUrl}/${commonRequestModel.userId}/${commonRequestModel.productId}",
         isauth: true,
       );
-      return (response);
+      return commonResponseModelFromJson(response);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<ProductsResponseModel> getProductsByCategory(
+      CommonRequestModel commonRequestModel) async {
+    try {
+      var response = await _apiHandler.get(
+        "${ApiConfig.productUrl}${ApiConfig.categoryUrl}/${commonRequestModel.categoryId}",
+        isauth: true,
+      );
+      return productsResponseModelFromJson(response);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<ProductsResponseModel> searchProducts() async {
+    try {
+      var response = await _apiHandler.get(
+        "${ApiConfig.productUrl}${ApiConfig.searchUrl}/${sl.get<SearchBloc>().searchController.text}",
+        isauth: true,
+      );
+      return productsResponseModelFromJson(response);
     } catch (e) {
       rethrow;
     }

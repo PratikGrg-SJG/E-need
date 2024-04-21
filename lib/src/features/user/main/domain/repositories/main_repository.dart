@@ -13,12 +13,15 @@ import 'package:e_needs/src/features/user/main/data/models/profile/user_details_
 import 'package:e_needs/src/features/user/main/data/models/wishlist/wishlist_response_model.dart';
 import 'package:e_needs/src/models/common_request_model.dart';
 
+import '../../data/models/common_response_model.dart';
 import '../../data/models/profile/update_profile_request_model.dart';
 
 abstract class MainRepository {
   Future<Either<Failure, List<CategoryResponseModel>?>> getAllCategories(
       CommonRequestModel commonRequestModel);
   Future<Either<Failure, ProductsResponseModel>> getAllProducts(
+      CommonRequestModel commonRequestModel);
+  Future<Either<Failure, ProductsResponseModel>> getProductsByCategory(
       CommonRequestModel commonRequestModel);
   Future<Either<Failure, UserDetailsResponseModel>> getUserDetails(
       CommonRequestModel commonRequestModel);
@@ -37,6 +40,8 @@ abstract class MainRepository {
       CommonRequestModel commonRequestModel);
   Future<Either<Failure, List<WishlistResponseModel>>> getWishlist(
       CommonRequestModel commonRequestModel);
-  Future<Either<Failure, String>> updateWishlist(
+  Future<Either<Failure, CommonResponseModel>> updateWishlist(
       CommonRequestModel commonRequestModel);
+
+  Future<Either<Failure, ProductsResponseModel>> searchProducts();
 }

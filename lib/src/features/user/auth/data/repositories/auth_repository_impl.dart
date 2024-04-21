@@ -6,6 +6,7 @@ import 'package:e_needs/src/features/user/auth/data/models/login_request_model.d
 import 'package:e_needs/src/features/user/auth/data/models/login_response_model.dart';
 import 'package:e_needs/src/features/user/auth/data/models/register_user_request_model.dart';
 import 'package:e_needs/src/features/user/auth/data/models/register_user_response_model.dart';
+import 'package:e_needs/src/features/user/auth/data/models/verifyOtp_request_model.dart';
 import 'package:e_needs/src/features/user/auth/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
@@ -31,6 +32,20 @@ class AuthRepositoryImpl extends AuthRepository {
       LoginRequestModel loginRequestModel) async {
     try {
       final response = await _authRemoteDataSource.loginUser(loginRequestModel);
+      return Right(response);
+    } on ApiException catch (e) {
+      return Left(ApiFailure(e.message.toString()));
+    } catch (e) {
+      return Left(ApiFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> verifyOtp(
+      VerifyOtpRequestModel verifyOtpRequestModel) async {
+    try {
+      final response =
+          await _authRemoteDataSource.verifyOtp(verifyOtpRequestModel);
       return Right(response);
     } on ApiException catch (e) {
       return Left(ApiFailure(e.message.toString()));

@@ -1,12 +1,14 @@
 import 'package:e_needs/di_injection.dart';
 import 'package:e_needs/src/features/user/auth/presentation/screens/login/login_screen.dart';
 import 'package:e_needs/src/features/user/auth/presentation/screens/register/cubit/register_cubit.dart';
+import 'package:e_needs/src/utils/custom_toasts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // ignore: unused_import
 import 'package:get/get.dart';
 
 import '../../../../../../core/app/colors.dart';
+import '../otp/otp_screen.dart';
 
 part 'widgets/register_form_widget.dart';
 
@@ -15,49 +17,41 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color.fromRGBO(247, 239, 229, 1),
-      body: BlocListener<RegisterUserCubit, RegisterUserState>(
-        listener: (context, state) {
-          if (state.status == RegisterUserStatus.loading) {
-            print("loading");
-            showDialog(
-              context: context,
-              builder: (context) => Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }
-          if (state.status == RegisterUserStatus.failure) {
-            print("failure bahyo");
-            Navigator.pop(context);
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message ?? ''),
-                backgroundColor: Colors.red,
-                duration: Duration(seconds: 2),
-              ),
-            );
-          }
-          if (state.status == RegisterUserStatus.success) {
-            Navigator.pop(context);
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => LoginScreen(),
-              ),
-            );
-            sl.get<RegisterUserCubit>().resetControllers();
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message ?? ''),
-                backgroundColor: Colors.green,
-                duration: Duration(seconds: 2),
-              ),
-            );
-          }
-        },
-        child: Stack(
+    return BlocListener<RegisterUserCubit, RegisterUserState>(
+      listener: (context, state) {
+        if (state.status == RegisterUserStatus.loading) {
+          showDialog(
+            context: context,
+            builder: (context) => Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+        if (state.status == RegisterUserStatus.failure) {
+          Navigator.pop(context);
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message ?? ''),
+              backgroundColor: Colors.red,
+              duration: Duration(seconds: 2),
+            ),
+          );
+        }
+        if (state.status == RegisterUserStatus.loading) {
+          Navigator.pop(context);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => OTPScreen(),
+            ),
+          );
+          successToast(msg: "Otp sent, please check your email");
+        }
+      },
+      child: Scaffold(
+        backgroundColor: Color.fromRGBO(247, 239, 229, 1),
+        body: Stack(
           children: [
             Column(
               children: [
@@ -141,12 +135,6 @@ class RegisterScreen extends StatelessWidget {
                                     .registerFormKey
                                     .currentState!
                                     .validate()) {
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //     builder: (context) => OTPScreen(),
-                                  //   ),
-                                  // );
                                   sl.get<RegisterUserCubit>().registerUser();
                                 }
                               },

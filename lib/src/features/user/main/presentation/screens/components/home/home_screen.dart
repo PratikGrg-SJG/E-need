@@ -2,19 +2,23 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:e_needs/src/core/app/colors.dart';
 import 'package:e_needs/src/core/app/dimensions.dart';
 import 'package:e_needs/src/core/configs/api_config.dart';
+import 'package:e_needs/src/core/development/console.dart';
 import 'package:e_needs/src/features/user/main/data/models/products/product_response_model.dart';
 import 'package:e_needs/src/features/user/main/presentation/screens/components/cart/bloc/get_cart_cubit/get_cart_cubit.dart';
 import 'package:e_needs/src/features/user/main/presentation/screens/components/home/bloc/get_products_cubit/get_all_products_cubit.dart';
+import 'package:e_needs/src/features/user/main/presentation/screens/components/search/search_screen.dart';
 import 'package:e_needs/src/widgets/custom_shadow_container.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../../../../di_injection.dart';
 import '../../../../../../../core/app/medias.dart';
 import '../../../../../../../core/states/states.dart';
 import '../cart/cart_screen.dart';
 import '../product/product_screen.dart';
 import 'bloc/get_categories_cubit/get_categories_cubit.dart';
+import 'bloc/get_products_by_category/get_products_by_category_cubit.dart';
 
 part 'widgets/carousel_section.dart';
 part 'widgets/category_section.dart';
@@ -89,19 +93,28 @@ class _HomeScreenState extends State<HomeScreen> {
           preferredSize: Size(MediaQuery.of(context).size.width, 50),
           child: Padding(
             padding: EdgeInsets.only(left: 16, right: 16, bottom: 10),
-            child: CustomShadowContainer(
-              widget: CupertinoSearchTextField(
-                padding: EdgeInsets.all(14),
-                prefixInsets: EdgeInsets.only(left: 16),
-                decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        blurRadius: 7,
-                      )
-                    ],
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10)),
+            child: GestureDetector(
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SearchScreen(),
+                ),
+              ),
+              child: CustomShadowContainer(
+                widget: CupertinoSearchTextField(
+                  enabled: false,
+                  padding: EdgeInsets.all(14),
+                  prefixInsets: EdgeInsets.only(left: 16),
+                  decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          blurRadius: 7,
+                        )
+                      ],
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10)),
+                ),
               ),
             ),
           ),
@@ -122,32 +135,80 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(
                   height: 30,
                 ),
-                BlocBuilder<GetAllProductsCubit, GetAllProductsState>(
-                  builder: (context, state) {
-                    return GridView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 15,
-                        mainAxisSpacing: 25,
-                        mainAxisExtent: 230,
-                      ),
-                      itemBuilder: (context, index) => GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ProductScreen(
-                                    product: state
-                                        .productsResponseModel?.data?[index]),
-                              ));
-                        },
-                        child: ProductCard(
-                            product: state.productsResponseModel?.data?[index]),
-                      ),
-                      itemCount: state.productsResponseModel?.data?.length ?? 0,
-                    );
+                ValueListenableBuilder(
+                  valueListenable: showCategoryProductsNotifier,
+                  builder: (context, value, child) {
+                    console("her ::${showCategoryProductsNotifier.value}");
+                    return showCategoryProductsNotifier.value == true
+                        ? BlocBuilder<GetProductsByCategoryCubit,
+                            GetProductsByCategoryState>(
+                            builder: (context, categoryState) {
+                              console(
+                                  "her chalyo ::${categoryState.products?.data?.length}");
+                              return GridView.builder(
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 15,
+                                  mainAxisSpacing: 25,
+                                  mainAxisExtent: 230,
+                                ),
+                                itemBuilder: (context, index) =>
+                                    GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => ProductScreen(
+                                              product: categoryState
+                                                  .products?.data?[index]),
+                                        ));
+                                  },
+                                  child: ProductCard(
+                                      product:
+                                          categoryState.products?.data?[index]),
+                                ),
+                                itemCount:
+                                    categoryState.products?.data?.length ?? 0,
+                              );
+                            },
+                          )
+                        : BlocBuilder<GetAllProductsCubit, GetAllProductsState>(
+                            builder: (context, state) {
+                              return GridView.builder(
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 15,
+                                  mainAxisSpacing: 25,
+                                  mainAxisExtent: 230,
+                                ),
+                                itemBuilder: (context, index) =>
+                                    GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => ProductScreen(
+                                              product: state
+                                                  .productsResponseModel
+                                                  ?.data?[index]),
+                                        ));
+                                  },
+                                  child: ProductCard(
+                                      product: state
+                                          .productsResponseModel?.data?[index]),
+                                ),
+                                itemCount:
+                                    state.productsResponseModel?.data?.length ??
+                                        0,
+                              );
+                            },
+                          );
                   },
                 ),
                 SizedBox(height: 16),

@@ -208,8 +208,7 @@ class ProductScreen extends StatelessWidget {
                           final cartItems = sl.get<GetCartCubit>().cartItems;
 
                           var isInCart = cartItems.any((cartProduct) =>
-                              int.parse(cartProduct.productId ?? '') ==
-                              product?.id);
+                              cartProduct.productId == product?.id);
 
                           if (isInCart) {
                             ScaffoldMessenger.of(context).showSnackBar(

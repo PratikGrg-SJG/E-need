@@ -25,6 +25,13 @@ class WsishListScreen extends StatelessWidget {
         }
         if (state.status == UpdateWishlistStatus.success) {
           sl.get<GetWishlistCubit>().getWishlist();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.green,
+              duration: Duration(seconds: 2),
+              content: Text(state.message ?? ''),
+            ),
+          );
         }
       },
       child: Scaffold(

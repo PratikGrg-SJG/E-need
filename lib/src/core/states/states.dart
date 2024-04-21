@@ -6,3 +6,5 @@ ValueNotifier<bool> paymentCODMethodSelectedNotifier =
     ValueNotifier<bool>(false);
 ValueNotifier<bool> paymentKhaltiMethodSelectedNotifier =
     ValueNotifier<bool>(false);
+ValueNotifier<bool> showCategoryProductsNotifier =
+    ValueNotifier<bool>(false);

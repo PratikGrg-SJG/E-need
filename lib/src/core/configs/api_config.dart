@@ -1,11 +1,12 @@
 class ApiConfig {
-  static const String localhost = "http://192.168.11.85:8000";
+  static const String localhost = "http://192.168.11.82:8000";
 
   static const String apiUrl = "/api";
   static String baseUrl = localhost + apiUrl;
 
   static const String authUrl = "/auth";
   static const String loginUrl = "/login";
+  static const String registerUrl = "/register";
   static const String userUrl = "/user";
   static const String updateUrl = "/update";
   static const String createUrl = "/create";
@@ -20,5 +21,6 @@ class ApiConfig {
   static const String favoriteUrl = "/favorite";
   static const String addUrl = "/add";
   static const String removeUrl = "/remove";
-
+  static const String searchUrl = "/search";
+  static const String verifyOtpUrl = "/verifyOtp";
 }

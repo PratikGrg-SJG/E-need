@@ -7,6 +7,7 @@ class CommonRequestModel {
   final bool? isQtyIncrease;
   final PaymentMethod? paymentMethod;
   final bool? addToWishlist;
+  final int? otp;
 
   CommonRequestModel({
     this.categoryId,
@@ -15,5 +16,6 @@ class CommonRequestModel {
     this.isQtyIncrease,
     this.paymentMethod,
     this.addToWishlist,
+    this.otp,
   });
 }

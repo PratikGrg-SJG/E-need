@@ -35,6 +35,7 @@ class GetCartCubit extends Cubit<GetCartState> {
                   message: failure.message,
                 ),
               ), (result) {
+        console("check ::  ${result.data?.productData?[0].productName}");
         logger(result, loggerType: LoggerType.success);
         cartItems.clear();
         cartItems.addAll(result.data?.productData ?? []);

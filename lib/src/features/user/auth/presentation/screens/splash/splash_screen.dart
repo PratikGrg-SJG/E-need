@@ -2,6 +2,7 @@ import 'package:e_needs/src/features/user/auth/presentation/screens/welcome/welc
 import 'package:e_needs/src/features/user/main/presentation/screens/main_screen.dart';
 import 'package:e_needs/src/services/local/secure_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -37,9 +38,14 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: CircularProgressIndicator(),
+        child: Lottie.asset(
+          "assets/json/splash.json",
+          repeat: true,
+          height: 200,
+          width: 200,
+        ),
       ),
     );
   }
