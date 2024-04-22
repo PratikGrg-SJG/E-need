@@ -5,6 +5,43 @@ class RegisterFormWidget extends StatelessWidget {
     super.key,
   });
 
+  // Method to check the strength of the password
+  String? isPasswordStrong(String password) {
+    // Regular expressions to check for different criteria
+    RegExp lowercaseRegex = RegExp(r'[a-z]');
+    RegExp uppercaseRegex = RegExp(r'[A-Z]');
+    RegExp digitRegex = RegExp(r'\d');
+    RegExp specialCharRegex = RegExp(r'[!@#$%^&*(),.?":{}|<>]');
+
+    // Check for minimum length
+    if (password.length < 8) {
+      return 'Password must be at least 8 characters long';
+    }
+
+    // Check for presence of lowercase letters
+    if (!lowercaseRegex.hasMatch(password)) {
+      return 'Password must contain at least one lowercase letter';
+    }
+
+    // Check for presence of uppercase letters
+    if (!uppercaseRegex.hasMatch(password)) {
+      return 'Password must contain at least one uppercase letter';
+    }
+
+    // Check for presence of digits
+    if (!digitRegex.hasMatch(password)) {
+      return 'Password must contain at least one digit';
+    }
+
+    // Check for presence of special characters
+    if (!specialCharRegex.hasMatch(password)) {
+      return 'Password must contain at least one special character';
+    }
+
+    // If all criteria are met, return null
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -115,11 +152,15 @@ class RegisterFormWidget extends StatelessWidget {
           controller: sl.get<RegisterUserCubit>().passwordController,
           obscureText: true,
           validator: (password) {
+            var strengthMessage = isPasswordStrong(password ?? '');
             if (password == null || password.isEmpty) {
               return "Required field!";
             }
-            if (password.length < 8 || password.length != 8) {
+            if (password.length < 8) {
               return "Password needs to be atleast of 8 Characters !";
+            }
+            if (strengthMessage != null) {
+              return strengthMessage;
             }
             return null;
           },

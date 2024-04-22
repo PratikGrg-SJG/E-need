@@ -1,5 +1,5 @@
 class ApiConfig {
-  static const String localhost = "http://192.168.11.82:8000";
+  static const String localhost = "http://192.168.1.71:8000";
 
   static const String apiUrl = "/api";
   static String baseUrl = localhost + apiUrl;

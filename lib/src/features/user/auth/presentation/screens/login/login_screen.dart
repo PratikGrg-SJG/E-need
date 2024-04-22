@@ -4,6 +4,7 @@ import 'package:e_needs/src/features/user/auth/presentation/screens/login/cubit/
 import 'package:e_needs/src/features/user/auth/presentation/screens/register/register_screen.dart';
 import 'package:e_needs/src/features/user/main/presentation/cubit/nav_cubit.dart';
 import 'package:e_needs/src/features/user/main/presentation/screens/main_screen.dart';
+import 'package:e_needs/src/utils/custom_toasts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -29,13 +30,7 @@ class LoginScreen extends StatelessWidget {
           if (state.status == LoginStatus.failure) {
             Navigator.pop(context);
 
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message ?? ''),
-                backgroundColor: Colors.red,
-                duration: Duration(seconds: 2),
-              ),
-            );
+            errorToast(msg: state.message);
             console(state.message);
           }
           if (state.status == LoginStatus.success) {

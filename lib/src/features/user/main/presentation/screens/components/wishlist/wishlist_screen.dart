@@ -2,6 +2,7 @@ import 'package:e_needs/di_injection.dart';
 import 'package:e_needs/src/core/app/colors.dart';
 import 'package:e_needs/src/core/app/dimensions.dart';
 import 'package:e_needs/src/features/user/main/data/models/wishlist/wishlist_response_model.dart';
+import 'package:e_needs/src/features/user/main/presentation/screens/components/cart/bloc/get_cart_cubit/get_cart_cubit.dart';
 import 'package:e_needs/src/features/user/main/presentation/screens/components/wishlist/bloc/get_wishlist_cubit/get_wishlist_cubit.dart';
 import 'package:e_needs/src/features/user/main/presentation/screens/components/wishlist/bloc/update_wishlist_cubit/update_wishlist_cubit.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../../core/configs/api_config.dart';
 import '../../../../../../../utils/custom_toasts.dart';
+import '../cart/bloc/add_to_cart_cubit/add_to_cart_cubit.dart';
 
 part 'widgets/wishlist_card.dart';
 
@@ -17,23 +19,35 @@ class WsishListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<UpdateWishlistCubit, UpdateWishlistState>(
-      listener: (context, state) {
-        if (state.status == UpdateWishlistStatus.loading) {}
-        if (state.status == UpdateWishlistStatus.failure) {
-          errorToast(msg: state.message);
-        }
-        if (state.status == UpdateWishlistStatus.success) {
-          sl.get<GetWishlistCubit>().getWishlist();
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              backgroundColor: Colors.green,
-              duration: Duration(seconds: 2),
-              content: Text(state.message ?? ''),
-            ),
-          );
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<UpdateWishlistCubit, UpdateWishlistState>(
+          listener: (context, state) {
+            if (state.status == UpdateWishlistStatus.loading) {}
+            if (state.status == UpdateWishlistStatus.failure) {
+              errorToast(msg: state.message);
+            }
+            if (state.status == UpdateWishlistStatus.success) {
+              sl.get<GetWishlistCubit>().getWishlist();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  backgroundColor: Colors.green,
+                  duration: Duration(seconds: 2),
+                  content: Text(state.message ?? ''),
+                ),
+              );
+            }
+          },
+        ),
+        BlocListener<AddToCartCubit, AddToCartState>(
+          listener: (context, state) {
+            if (state.status == AddToCartStatus.success) {
+              sl.get<GetCartCubit>().getCart();
+              sl.get<GetWishlistCubit>().getWishlist();
+            }
+          },
+        ),
+      ],
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,

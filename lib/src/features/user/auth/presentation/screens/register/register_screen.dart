@@ -15,6 +15,8 @@ part 'widgets/register_form_widget.dart';
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
 
+
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<RegisterUserCubit, RegisterUserState>(
@@ -135,7 +137,9 @@ class RegisterScreen extends StatelessWidget {
                                     .registerFormKey
                                     .currentState!
                                     .validate()) {
-                                  sl.get<RegisterUserCubit>().registerUser();
+                                
+                                    sl.get<RegisterUserCubit>().registerUser();
+                                  
                                 }
                               },
                               child: Text("Sign Up",

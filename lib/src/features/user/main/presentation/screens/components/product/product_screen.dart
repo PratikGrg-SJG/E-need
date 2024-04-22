@@ -129,36 +129,38 @@ class ProductScreen extends StatelessWidget {
               child: Container(
                 padding: screenLeftRightPadding,
                 width: MediaQuery.of(context).size.width,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      product?.name ?? '',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w600,
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        product?.name ?? '',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    ),
-                    Text(
-                      "Rs ${product?.price ?? ''}",
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w600,
+                      Text(
+                        "Rs ${product?.price ?? ''}",
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    ),
-                    Text(
-                      "Rs ${product?.description ?? ''}",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.grey),
-                    ),
-                  ],
+                      Text(
+                        "Rs ${product?.description ?? ''}",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.grey),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
             SizedBox(
-              height: 20,
+              height: 8,
             ),
             Padding(
               padding: screenLeftRightPadding,
@@ -238,7 +240,7 @@ class ProductScreen extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 40,
+              height: 20,
             ),
           ],
         ),

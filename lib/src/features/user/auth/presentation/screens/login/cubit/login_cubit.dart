@@ -37,7 +37,7 @@ class LoginCubit extends Cubit<LoginState> {
           email: _emailController.text, password: _passwordController.text));
       response.fold((failure) {
         emit(state.copyWith(
-            status: LoginStatus.failure, message: failure.message));
+            status: LoginStatus.failure, message: "Incorrect Credentials"));
       }, (result) {
         SharedPreference.setAuthToken(result.token ?? '');
         SharedPreference.setUserId(result.data?.id ?? 0);

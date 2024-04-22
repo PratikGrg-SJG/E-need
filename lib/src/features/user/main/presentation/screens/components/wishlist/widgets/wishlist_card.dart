@@ -54,7 +54,11 @@ class WishlistCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(borderRadiusSecond),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    sl
+                        .get<AddToCartCubit>()
+                        .addToCart(productId: wishlist?.id ?? 0);
+                  },
                   child: Text(
                     "Add To Cart",
                     style: TextStyle(
